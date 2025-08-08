@@ -25,7 +25,7 @@ ul {
   padding: 0;
 }
 
-.SkylarBody {
+#SkylarBody {
   background-image: url("assets\skylar\2316x3088_cb256c257c524d116b657636bd36dc0e.jpg");
   background-size: cover;
 }
