@@ -62,11 +62,11 @@
       // Clear previous video
       container.innerHTML = "";
 
-      if (url.includes("youtube.com") || url.includes("youtu.be")) {
+      if (url.includes("pornhub.com") || url.includes("youtu.be")) {
         // Handle YouTube URLs
         let videoId;
 
-        if (url.includes("youtube.com")) {
+        if (url.includes("pornhub.com")) {
           const urlParams = new URLSearchParams(new URL(url).search);
           videoId = urlParams.get("v");
         } else if (url.includes("youtu.be")) {
@@ -75,7 +75,7 @@
 
         if (videoId) {
           container.innerHTML = `
-            <iframe src="https://www.youtube.com/embed/${videoId}" 
+            <iframe src="https://www.pornhub.com/view_video.php?viewkey=6895c5a89e3ef${videoId}" 
                     frameborder="0" allowfullscreen>
             </iframe>`;
         } else {
