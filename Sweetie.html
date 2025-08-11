@@ -12,33 +12,55 @@
   <li><a href="index.html">Main</a></li>
 </ul>
 
-<h1>My First Heading</h1>
-<p>My first paragraph.</p>
-
+ <meta charset="UTF-8">
+  <title>Video Search Bar</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- For mobile responsiveness -->
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 40px;
+      margin: 20px;
+      padding: 0;
       text-align: center;
     }
+
     input {
-      width: 60%;
+      width: 90%;
+      max-width: 600px;
       padding: 10px;
       font-size: 16px;
+      box-sizing: border-box;
     }
+
     button {
       padding: 10px 20px;
       font-size: 16px;
-      margin-left: 10px;
+      margin: 10px 5px;
+      cursor: pointer;
     }
+
     iframe, video {
-      margin-top: 30px;
-      width: 80%;
+      margin-top: 20px;
+      width: 100%;
+      max-width: 800px;
       height: 450px;
     }
+
+    #downloadBtn {
+      display: none;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+    }
+
     .error {
       color: red;
       margin-top: 20px;
+    }
+
+    @media (max-width: 600px) {
+      iframe, video {
+        height: 250px;
+      }
     }
   </style>
 </head>
@@ -58,9 +80,12 @@
     function loadVideo() {
       const url = document.getElementById("videoUrl").value.trim();
       const container = document.getElementById("videoContainer");
+      const downloadBtn = document.getElementById("downloadBtn");
       container.innerHTML = "";
+      downloadBtn.style.display = "none";
+      downloadBtn.href = "#";
 
-      // 1. YouTube
+      // YouTube
       if (url.includes("youtube.com") || url.includes("youtu.be")) {
         let videoId = null;
 
@@ -74,44 +99,42 @@
         if (videoId) {
           container.innerHTML = `
             <iframe src="https://www.youtube.com/embed/${videoId}"
-                    frameborder="0" allowfullscreen>
-            </iframe>`;
+                    frameborder="0" allowfullscreen></iframe>`;
         } else {
           container.innerHTML = "<p class='error'>Invalid YouTube URL.</p>";
         }
 
-      // 2. Pornhub
+      // Pornhub
       } else if (url.includes("pornhub.com")) {
         if (url.startsWith("<iframe")) {
-          // User pasted an iframe embed code
           container.innerHTML = url;
         } else {
-          // Try to extract viewkey
           const match = url.match(/viewkey=([a-zA-Z0-9]+)/);
           if (match && match[1]) {
             const videoId = match[1];
             container.innerHTML = `
               <iframe src="https://www.pornhub.com/embed/${videoId}" 
-                      frameborder="0" allowfullscreen>
-              </iframe>`;
+                      frameborder="0" allowfullscreen></iframe>`;
           } else {
             container.innerHTML = "<p class='error'>Invalid Pornhub URL.</p>";
           }
         }
 
-      // 3. Direct video links (.mp4, .webm, etc.)
+      // Direct video file (mp4, webm, etc.)
       } else if (url.match(/\.(mp4|webm|ogg|mov|avi)$/i)) {
         container.innerHTML = `
           <video controls>
             <source src="${url}">
             Your browser does not support the video tag.
           </video>`;
+        downloadBtn.href = url;
+        downloadBtn.style.display = "inline-block";
 
-      // 4. Raw iframe embed pasted directly
+      // Raw iframe embed
       } else if (url.startsWith("<iframe")) {
         container.innerHTML = url;
 
-      // 5. Unknown format
+      // Unknown
       } else {
         container.innerHTML = "<p class='error'>Unsupported video format or URL.</p>";
       }
