@@ -45,8 +45,12 @@
 <body>
 
   <h2>Video Embed Search</h2>
+
   <input type="text" id="videoUrl" placeholder="Paste video URL or embed code here..." />
-  <button onclick="loadVideo()">Load Video</button>
+  <div>
+    <button onclick="loadVideo()">Load Video</button>
+    <a id="downloadBtn" href="#" download target="_blank">Download Video</a>
+  </div>
 
   <div id="videoContainer"></div>
 
