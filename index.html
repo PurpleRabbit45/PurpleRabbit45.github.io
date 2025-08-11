@@ -10,7 +10,7 @@
   <li><a href="Skylar.html">Skylar</a></li>
   <li><a href="Sweetie.html">SweetieFox</a></li>
   <li><a href="contact.asp">Contact</a></li>
-  <li><a href="about.asp">About</a></li>
+  <li><a href="index.html">Main</a></li>
 </ul>
 
 <h1>This is a Heading</h1>
@@ -43,5 +43,55 @@
 </h2>
 
 
+<p4>
+    <h2>Video Search Bar</h2>
+  <input type="text" id="videoUrl" placeholder="Paste video URL here..." />
+  <button onclick="loadVideo()">Load Video</button>
+
+  <!-- Video will show up here -->
+  <div id="videoContainer"></div>
+</p4>
+
+
+
+  <script>
+    function loadVideo() {
+      const url = document.getElementById("videoUrl").value;
+      const container = document.getElementById("videoContainer");
+
+      // Clear previous video
+      container.innerHTML = "";
+
+      if (url.includes("youtube.com") || url.includes("youtu.be")) {
+        // Handle YouTube URLs
+        let videoId;
+
+        if (url.includes("youtube.com")) {
+          const urlParams = new URLSearchParams(new URL(url).search);
+          videoId = urlParams.get("v");
+        } else if (url.includes("youtu.be")) {
+          videoId = url.split("/").pop();
+        }
+
+        if (videoId) {
+          container.innerHTML = `
+            <iframe src="https://www.youtube.com/embed/${videoId}" 
+                    frameborder="0" allowfullscreen>
+            </iframe>`;
+        } else {
+          container.innerHTML = "<p>Invalid YouTube URL</p>";
+        }
+      } else if (url.match(/\.(mp4|webm|ogg)$/)) {
+        // Handle direct video links
+        container.innerHTML = `
+          <video controls>
+            <source src="${url}" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>`;
+      } else {
+        container.innerHTML = "<p>Unsupported video URL</p>";
+      }
+    }
+  </script>
 </body>
 </html>
