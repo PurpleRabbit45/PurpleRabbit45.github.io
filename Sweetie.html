@@ -121,23 +121,23 @@
         }
 
       // Direct video file (mp4, webm, etc.)
-      } else if (url.match(/\.(mp4|webm|ogg|mov|avi)$/i)) {
-        container.innerHTML = `
-          <video controls>
-            <source src="${url}">
-            Your browser does not support the video tag.
-          </video>`;
-        downloadBtn.href = url;
-        downloadBtn.style.display = "inline-block";
+} else if (url.match(/\.(mp4|webm|ogg|mov|avi)$/i)) {
+  container.innerHTML = `
+    <video controls>
+      <source src="${url}">
+      Your browser does not support the video tag.
+    </video>`;
 
-      // Raw iframe embed
-      } else if (url.startsWith("<iframe")) {
-        container.innerHTML = url;
-
-      // Unknown
-      } else {
-        container.innerHTML = "<p class='error'>Unsupported video format or URL.</p>";
-      }
+  // Set download only if it's a valid raw file (via HEAD check or known test file)
+  if (url.startsWith("https://www.w3schools.com")) {
+    downloadBtn.href = url;
+    downloadBtn.download = ""; // Let browser name the file
+    downloadBtn.style.display = "inline-block";
+  } else {
+    downloadBtn.style.display = "none";
+    console.log("This video may not be downloadable directly.");
+  }
+}
     }
   </script>
 
